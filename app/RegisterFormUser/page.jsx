@@ -1,14 +1,18 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-const RegisterForm = () => {
+const RegisterFormUser = () => {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleLoginClick = () => {
+    router.push('/login');
+  };
+
+  const handleRegisterClick = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch('/api/accounts/register', {
@@ -20,9 +24,10 @@ const RegisterForm = () => {
       });
 
       if (response.ok) {
-        router.push('/login');
+        router.push('/login'); 
       } else {
-        console.error('Registration failed');
+        const data = await response.json();
+        alert(`Registration failed\nError: ${data.message}`);
       }
     } catch (error) {
       console.error('Error registering user:', error);
@@ -30,49 +35,32 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xs mx-auto mt-4 p-4 bg-gray-200 rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">User Registration</h2>
-      <label htmlFor="username" className="block mb-2">
-        Username
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="block w-full mt-1 px-3 py-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          required
-        />
-      </label>
-      <label htmlFor="email" className="block mb-2">
-        Email
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="block w-full mt-1 px-3 py-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          required
-        />
-      </label>
-      <label htmlFor="password" className="block mb-4">
-        Password
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="block w-full mt-1 px-3 py-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          required
-        />
-      </label>
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
-      >
-        Register
-      </button>
-    </form>
+    <div className="w-full h-full">
+      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center h-full">
+        <div className="rounded-2xl bg-accent2 shadow-2xl flex flex-row w-2/3 max-w-4xl">
+          <div className="w-2/5 rounded-tl-2xl rounded-bl-2xl bg-accent1 text-bg py-36 px-12">
+            <h2 className="text-3xl font-bold mb-2">Been here before?</h2>
+            <div className="border-2 border-bg mb-4 w-12 inline-block"></div>
+            <p className="text-lg text-bg">Click the button below and join us back up!</p>
+            <button className="mt-8 bg-bg text-accent1 py-2 px-4 rounded-full inline-block font-semibold hover:bg-accent hover:text-bg" onClick={handleLoginClick}>
+              Login
+            </button>
+          </div>
+
+          <div className="w-3/5 p-5">
+            <h2 className="text-3xl font-bold mb-2 text-accent py-3 my-10">Sign Up</h2>
+            <div className="border-2 border-bg mb-4 w-12 inline-block"></div>
+            <form onSubmit={handleRegisterClick} className="flex py-13 flex-col items-center">
+              <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="w-3/4 bg-bg text-accent1 py-2 px-4 rounded-full mb-4 outline-none focus:ring-2 focus:ring-accent1" required />
+              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-3/4 bg-bg text-accent1 py-2 px-4 rounded-full mb-4 outline-none focus:ring-2 focus:ring-accent1" required />
+              <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-3/4 bg-bg text-accent1 py-2 px-4 rounded-full mb-4 outline-none focus:ring-2 focus:ring-accent1" required />
+              <button type="submit" className="bg-bg text-accent1 py-2 px-4 rounded-full inline-block font-semibold hover:bg-accent hover:text-bg">Register</button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 };
 
-export default RegisterForm;
+export default RegisterFormUser;

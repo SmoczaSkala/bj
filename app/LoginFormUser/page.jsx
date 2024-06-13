@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import cookieCutter from 'cookie-cutter';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const LoginFormUser = () => {
   const router = useRouter();
@@ -20,9 +19,7 @@ const LoginFormUser = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        cookieCutter.set('token', data.token);
-        router.push('/');
+        router.push('/dashboard'); 
       } else {
         console.error('Login failed');
       }
