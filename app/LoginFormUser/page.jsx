@@ -1,23 +1,22 @@
-// components/LoginFormCompany.js
-
+"use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import cookieCutter from 'cookie-cutter';
 
-const LoginFormCompany = () => {
+const LoginFormUser = () => {
   const router = useRouter();
-  const [companyId, setCompanyId] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/companies/login', {
+      const response = await fetch('/api/accounts/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ companyId, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       if (response.ok) {
@@ -25,23 +24,23 @@ const LoginFormCompany = () => {
         cookieCutter.set('token', data.token);
         router.push('/');
       } else {
-        console.error('Company login failed');
+        console.error('Login failed');
       }
     } catch (error) {
-      console.error('Error logging in as company:', error);
+      console.error('Error logging in:', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xs mx-auto mt-4 p-4 bg-gray-200 rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">Company Login</h2>
-      <label htmlFor="companyId" className="block mb-2">
-        Company ID
+      <h2 className="text-lg font-semibold mb-4">User Login</h2>
+      <label htmlFor="username" className="block mb-2">
+        Username
         <input
           type="text"
-          id="companyId"
-          value={companyId}
-          onChange={(e) => setCompanyId(e.target.value)}
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="block w-full mt-1 px-3 py-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
           required
         />
@@ -67,4 +66,4 @@ const LoginFormCompany = () => {
   );
 };
 
-export default LoginFormCompany;
+export default LoginFormUser;

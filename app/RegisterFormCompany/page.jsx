@@ -1,47 +1,55 @@
-// components/LoginFormUser.js
-
+"use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import cookieCutter from 'cookie-cutter';
 
-const LoginFormUser = () => {
+const RegisterFormCompany = () => {
   const router = useRouter();
-  const [username, setUsername] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [companyId, setCompanyId] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/accounts/login', {
+      const response = await fetch('/api/companies/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ companyName, companyId, password }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        cookieCutter.set('token', data.token);
-        router.push('/');
+        router.push('/company_login');
       } else {
-        console.error('Login failed');
+        console.error('Company registration failed');
       }
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.error('Error registering company:', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xs mx-auto mt-4 p-4 bg-gray-200 rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">User Login</h2>
-      <label htmlFor="username" className="block mb-2">
-        Username
+      <h2 className="text-lg font-semibold mb-4">Company Registration</h2>
+      <label htmlFor="companyName" className="block mb-2">
+        Company Name
         <input
           type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          id="companyName"
+          value={companyName}
+          onChange={(e) => setCompanyName(e.target.value)}
+          className="block w-full mt-1 px-3 py-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+          required
+        />
+      </label>
+      <label htmlFor="companyId" className="block mb-2">
+        Company ID
+        <input
+          type="text"
+          id="companyId"
+          value={companyId}
+          onChange={(e) => setCompanyId(e.target.value)}
           className="block w-full mt-1 px-3 py-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
           required
         />
@@ -61,10 +69,10 @@ const LoginFormUser = () => {
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
       >
-        Login
+        Register
       </button>
     </form>
   );
 };
 
-export default LoginFormUser;
+export default RegisterFormCompany;
