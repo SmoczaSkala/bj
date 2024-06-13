@@ -9,13 +9,13 @@ const RegisterFormUser = () => {
   const [password, setPassword] = useState('');
 
   const handleLoginClick = () => {
-    router.push('/login');
+    router.push('/LoginFormUser');
   };
 
   const handleRegisterClick = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/accounts/register', {
+      const response = await fetch('http://localhost:3000/api/accounts/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const RegisterFormUser = () => {
       });
 
       if (response.ok) {
-        router.push('/login'); 
+        router.push('/LoginFormUser');
       } else {
         const data = await response.json();
         alert(`Registration failed\nError: ${data.message}`);
@@ -46,12 +46,11 @@ const RegisterFormUser = () => {
               Login
             </button>
           </div>
-
           <div className="w-3/5 p-5">
             <h2 className="text-3xl font-bold mb-2 text-accent py-3 my-10">Sign Up</h2>
             <div className="border-2 border-bg mb-4 w-12 inline-block"></div>
             <form onSubmit={handleRegisterClick} className="flex py-13 flex-col items-center">
-              <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="w-3/4 bg-bg text-accent1 py-2 px-4 rounded-full mb-4 outline-none focus:ring-2 focus:ring-accent1" required />
+              <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="w-3/4 bg-bg texte-accent1 py-2 px-4 rounded-full mb-4 outline-none focus:ring-2 focus:ring-accent1" required />
               <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-3/4 bg-bg text-accent1 py-2 px-4 rounded-full mb-4 outline-none focus:ring-2 focus:ring-accent1" required />
               <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-3/4 bg-bg text-accent1 py-2 px-4 rounded-full mb-4 outline-none focus:ring-2 focus:ring-accent1" required />
               <button type="submit" className="bg-bg text-accent1 py-2 px-4 rounded-full inline-block font-semibold hover:bg-accent hover:text-bg">Register</button>
