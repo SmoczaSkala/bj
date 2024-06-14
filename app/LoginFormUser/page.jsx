@@ -1,37 +1,40 @@
 "use client";
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const LoginFormUser = () => {
   const router = useRouter();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/accounts/login', {
-        method: 'POST',
+      const response = await fetch("/api/accounts/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
 
       if (response.ok) {
-        router.push('/dashboard'); 
+        router.push("/dashboard");
       } else {
-        console.error('Login failed');
+        console.error("Login failed");
       }
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.error("Error logging in:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xs mx-auto mt-4 p-4 bg-gray-200 rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">User Login</h2>
-      <label htmlFor="username" className="block mb-2">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-xs mx-auto mt-4 p-4 bg-gray-200 rounded-lg"
+    >
+      <h2 className="text-lg font-semibold mb-4 text-stone-900">User Login</h2>
+      <label htmlFor="username" className="block mb-2 text-stone-900	">
         Username
         <input
           type="text"
@@ -42,7 +45,7 @@ const LoginFormUser = () => {
           required
         />
       </label>
-      <label htmlFor="password" className="block mb-4">
+      <label htmlFor="password" className="block mb-4 text-stone-900	">
         Password
         <input
           type="password"

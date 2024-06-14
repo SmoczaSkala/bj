@@ -1,38 +1,43 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const RegisterFormCompany = () => {
   const router = useRouter();
-  const [companyName, setCompanyName] = useState('');
-  const [companyId, setCompanyId] = useState('');
-  const [password, setPassword] = useState('');
+  const [companyName, setCompanyName] = useState("");
+  const [companyId, setCompanyId] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/companies/register', {
-        method: 'POST',
+      const response = await fetch("/api/companies/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ companyName, companyId, password }),
       });
 
       if (response.ok) {
-        router.push('/company_login');
+        router.push("/company_login");
       } else {
-        console.error('Company registration failed');
+        console.error("Company registration failed");
       }
     } catch (error) {
-      console.error('Error registering company:', error);
+      console.error("Error registering company:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xs mx-auto mt-4 p-4 bg-gray-200 rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">Company Registration</h2>
-      <label htmlFor="companyName" className="block mb-2">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-xs mx-auto mt-4 p-4 bg-gray-200 rounded-lg"
+    >
+      <h2 className="text-lg font-semibold mb-4 text-stone-900">
+        Company Registration
+      </h2>
+      <label htmlFor="companyName" className="block mb-2 text-stone-900	">
         Company Name
         <input
           type="text"
@@ -43,7 +48,7 @@ const RegisterFormCompany = () => {
           required
         />
       </label>
-      <label htmlFor="companyId" className="block mb-2">
+      <label htmlFor="companyId" className="block mb-2 text-stone-900	">
         Company ID
         <input
           type="text"
@@ -54,7 +59,7 @@ const RegisterFormCompany = () => {
           required
         />
       </label>
-      <label htmlFor="password" className="block mb-4">
+      <label htmlFor="password" className="block mb-4 text-stone-900	">
         Password
         <input
           type="password"
